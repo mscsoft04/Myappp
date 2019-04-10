@@ -1,9 +1,9 @@
-
-import { HttpClient ,HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-//import {RequestOptions, Request, RequestMethod} from '@angular/http';
- import {Observable} from 'rxjs/Observable'
-//import 'rxjs/add/operator/map';
+import { HttpClient} from '@angular/common/http';
+import 'rxjs/add/operator/map';
+
+
+
 
 
 /*
@@ -25,10 +25,10 @@ export class AuthServiceProvider {
 
 
   PostApi(data,url){
-  let reqHeader = new HttpHeaders({'No-Auth':'True'});
+  //let reqHeader = new HttpHeaders({'No-Auth':'True'});
   //console.log("DATA:"+data+"URL:"+url);
 
-	return this.http.post(rootUrl+url,data,reqHeader);
+  return this.http.post(rootUrl+url,data);
   }
   GetApi(url){
 	// var reqHeader = new HttpHeaders({'No-Auth':'True'});

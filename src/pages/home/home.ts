@@ -28,7 +28,8 @@ export class HomePage {
 	let url='user/login';
 	let Login ={'username': form.value.uname,
            'password': form.value.password};
-	  this.api.PostApi(Login,url).subscribe((data : any)=>{
+    this.api.PostApi(Login,url).subscribe((data)=>{
+
       if(data.status==true){
 		    loading.dismiss();
 		  console.log(data.message);
@@ -45,7 +46,7 @@ export class HomePage {
            });alert.present();
 		   console.log(data.message);
 	   }
-    });
+   });
 
   }
 }
