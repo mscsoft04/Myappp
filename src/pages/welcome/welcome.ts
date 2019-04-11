@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,AlertController,LoadingController } from 'ionic-angular';
-import { HomePage } from '../home/home';
+//import { HomePage } from '../home/home';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import {  MenuController } from 'ionic-angular';
 
@@ -20,6 +20,8 @@ import {  MenuController } from 'ionic-angular';
 })
 export class WelcomePage {
    //userDetails : any;
+   public postdata:any;
+   public afterSucess:any;
   constructor(public navCtrl: NavController,
                 public navParams: NavParams,
                  public api:AuthServiceProvider,
@@ -34,22 +36,22 @@ export class WelcomePage {
      let user= JSON.parse(localStorage.getItem('userDetails'));
      let userid=user.id;
      let url="user/message_insertdata";
-     let postdata={"user_id":userid};
+     this.postdata={"user_id":userid};
     if(value=='green'){
-      postdata.status='1';
-      postdata.message="good";
-      this.data_post(postdata,url);
+      this.postdata.status='1';
+      this.postdata.message="good";
+      this.data_post( this.postdata,url);
 
 
     }else if(value=='red'){
-      postdata.status='1';
-      let message=this.message_alert(postdata,url);
+      this.postdata.status='2';
+      this.message_alert( this.postdata,url);
 
 
     }
     else if(value=='yellow'){
-      postdata.status='1';
-      let message=this.message_alert(postdata,url);
+      this.postdata.status='3';
+      this.message_alert( this.postdata,url);
    }
    // console.log(postdata);
 
@@ -57,7 +59,8 @@ export class WelcomePage {
   data_post(postdata,url){
 
     this.api.PostApi(postdata,url).subscribe((data)=>{
-      if(data.status==true){
+      this.afterSucess=data;
+      if(this.afterSucess.status==true){
        let alert = this.alertCtrl.create({
          //title: 'Alert',
          subTitle:"Thank You",
@@ -75,11 +78,11 @@ export class WelcomePage {
  message_alert(postdata,url){
 
     let alert = this.alertCtrl.create({
-      title: 'Message',
+      title: 'comments',
       inputs: [
         {
           name: 'Message',
-          placeholder: 'Message'
+          placeholder: 'comments'
         },
 
       ],
@@ -87,17 +90,22 @@ export class WelcomePage {
         {
           text: 'Cancel',
           role: 'cancel',
-          handler: data => {
+         /*  handler: data => {
            return false;
             console.log('Cancel clicked');
-          }
+          } */
         },
         {
           text: 'Save',
           handler: data => {
+            if(data.Message == "") {
+              return false;
 
-            postdata.message=data.Message;
-            this.data_post(postdata,url);
+              } else {
+                postdata.message=data.Message;
+                this.data_post(postdata,url);
+              }
+
           }
         }
       ]

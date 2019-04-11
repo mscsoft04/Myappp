@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import {Validators, FormBuilder, FormGroup } from '@angular/forms';
+//import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { NavController,AlertController,LoadingController   } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { WelcomePage } from '../welcome/welcome';
-import { Login } from './login.model';
+//import { Login,AfterLogin} from './login.model';
 
 @Component({
   selector: 'page-home',
@@ -19,6 +19,7 @@ export class HomePage {
 
   }
   public userData:any;
+  public afterLogin:any;
   person={uname:'super@mail.com','password':'123456'};
    logForm(form) {
 	    let loading = this.loadingCtrl.create({
@@ -29,22 +30,25 @@ export class HomePage {
 	let Login ={'username': form.value.uname,
            'password': form.value.password};
     this.api.PostApi(Login,url).subscribe((data)=>{
+      this.afterLogin=data;
 
-      if(data.status==true){
+      if(this.afterLogin.status==true){
 		    loading.dismiss();
-		  console.log(data.message);
-		   this. userData = {'id':data.id,'token':data.token,'name':data.name,'userRole':data.userRole};
-		   localStorage.setItem('userDetails',JSON.stringify(this.userData));
+		  //console.log(data.message);
+		   this.userData = {'id':this.afterLogin.id,'token':this.afterLogin.token,'name':this.afterLogin.name,'userRole':this.afterLogin.userRole};
+       localStorage.setItem('userDetails',JSON.stringify(this.userData));
+
 		    // debugger;
            this.navCtrl.setRoot(WelcomePage);
 	   }else{
 		    loading.dismiss();
 		   let alert = this.alertCtrl.create({
                  //title: 'Alert',
-                 subTitle: data.message,
+                 subTitle: this.afterLogin.message,
                  buttons: [{text: 'Ok',}]
            });alert.present();
-		   console.log(data.message);
+
+           //console.log(data.message);
 	   }
    });
 
