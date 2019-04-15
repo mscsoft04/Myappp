@@ -2,10 +2,12 @@ import { Component, ViewChild  } from '@angular/core';
 import { Nav, Platform  } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Events } from 'ionic-angular';
 
 import { HomePage } from '../pages/home/home';
 import { WelcomePage } from '../pages/welcome/welcome';
 import { ReportPage } from '../pages/report/report';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -28,14 +30,26 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public events:Events) {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Dashboard', component: WelcomePage },
-      { title: 'Report', component: ReportPage }
-    ];
+
+
+    this.events.subscribe('admin:login', () =>{
+      console.log('admin');
+      this.pages = [
+        { title: 'Dashboard', component: ReportPage }
+      ];
+    });
+    this.events.subscribe('user:login', () =>{
+      console.log('user');
+      this.pages = [
+        { title: 'Dashboard', component: WelcomePage },
+        { title: 'Feedback History', component: ReportPage }
+      ];
+    });
+
+
 
   }
 
@@ -52,6 +66,7 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+
   }
   logOut(){
 

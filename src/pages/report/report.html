@@ -15,14 +15,14 @@
 
 <ion-content>
     <div class="row header table-header-report">
-      <div class="col" *ngIf="userdeatils=='3'">Name</div>
+      <div class="col" *ngIf="userdeatils=='1'">Name</div>
       <div class="col">Date</div>
-      <div class="col">FeebBack</div>
+      <div class="col">FeedBack</div>
       <div class="col">Comments</div>
     </div>
     <div class="row" *ngFor="let rep of reportList">
-      <div class="col" *ngIf="userdeatils=='3'">{{rep.first_name}}</div>
-      <div class="col">{{rep.date}}</div>
+      <div class="col" *ngIf="userdeatils=='1'"><span class="mid_1">{{rep.first_name}}</span></div>
+      <div class="col"><span class="mid_1">{{rep.date}}</span></div>
       <div class="col" *ngIf="rep.status==1">
         <span class="green-sm-icon"></span>
       </div>
@@ -32,7 +32,7 @@
       <div class="col" *ngIf="rep.status==3">
           <span class="yellow-sm-icon"></span>
       </div>
-      <div class="col">{{rep.message}}</div>
+      <div class="col"><span class="mid_1">{{rep.message}}</span></div>
 
     </div>
 </ion-content>

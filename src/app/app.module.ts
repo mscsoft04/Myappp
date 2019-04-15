@@ -14,6 +14,7 @@ import { WelcomePage } from '../pages/welcome/welcome';
 import { ReportPage } from '../pages/report/report';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { ChartsModule } from 'ng2-charts';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,8 @@ import { ChartsModule } from 'ng2-charts';
     HomePage,
   WelcomePage,
   ReportPage,
+  TabsPage,
+
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,8 @@ import { ChartsModule } from 'ng2-charts';
     HomePage,
   WelcomePage,
   ReportPage,
+  TabsPage,
+
   ],
   providers: [
     StatusBar,

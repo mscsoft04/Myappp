@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+//import { Events } from 'ionic-angular';
+
 
 /**
  * Generated class for the ReportPage page.
@@ -17,21 +19,23 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 export class ReportPage {
   public reportList: any;
   public userdeatils: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public api:AuthServiceProvider,) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public api:AuthServiceProvider) {
   }
 
   ionViewDidLoad() {
     this.getPosts();
     this.userdeatils=JSON.parse(localStorage.getItem('userDetails')).userRole;
-
-
-
   }
 
   getPosts(){
     let url="user/message_getdata";
-    this.api.GetApi(url).subscribe((data:any)=>{
-        this.reportList = data;
+    let data=JSON.parse(localStorage.getItem('userDetails'));
+
+    this.api.PostApi(data,url).subscribe((data)=>{
+       return this.reportList = data;
     });
+
   }
+
+
 }

@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 import { NavController,AlertController,LoadingController   } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { WelcomePage } from '../welcome/welcome';
+import { ReportPage } from '../report/report';
+import { Events } from 'ionic-angular';
+
 //import { Login,AfterLogin} from './login.model';
 
 @Component({
@@ -14,8 +17,15 @@ export class HomePage {
   constructor(	public navCtrl: NavController,
 				public api:AuthServiceProvider ,
 				private alertCtrl: AlertController,
-				public loadingCtrl: LoadingController
+        public loadingCtrl: LoadingController,
+        public events: Events
   ){
+
+
+  }
+  ionViewDidLoad() {
+    /* this.events.unsubscribe('admin:login');
+    this.events.unsubscribe('user:login'); */
 
   }
   public userData:any;
@@ -37,9 +47,16 @@ export class HomePage {
 		  //console.log(data.message);
 		   this.userData = {'id':this.afterLogin.id,'token':this.afterLogin.token,'name':this.afterLogin.name,'userRole':this.afterLogin.userRole};
        localStorage.setItem('userDetails',JSON.stringify(this.userData));
+       localStorage.setItem('userRole',this.userData.userRole);
+        // debugger;
+        if (this.userData.userRole =='1') {
+           this.navCtrl.setRoot(ReportPage);
+           this.events.publish('admin:login');
 
-		    // debugger;
-           this.navCtrl.setRoot(WelcomePage);
+        }else{
+          this.navCtrl.setRoot(WelcomePage);
+          this.events.publish('user:login');
+        }
 	   }else{
 		    loading.dismiss();
 		   let alert = this.alertCtrl.create({
